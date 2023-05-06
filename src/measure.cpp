@@ -1,5 +1,5 @@
 /*
- * LOCO-CAN current class
+ * LOCO-CAN measure class
  * 
  * @author: Thomas H Winkler
  * @copyright: 2020
@@ -142,66 +142,4 @@ int32_t MEASURE::get(uint8_t type) {
     }
 
     return val;
-}
-
-
-/*
- * init measure value with reference
- */
-bool MEASURE_VALUE::begin(uint16_t reference) {
-    begin(reference, 0);
-
-    return true;
-}
-
-
-bool MEASURE_VALUE::begin(uint16_t reference, uint8_t index) {
-    _reference = reference;
-
-    if (index < 32) {
-        _index = index;
-        return true;
-    }
-
-    _index = 0;
-    return false;
-}
-
-
-void MEASURE_VALUE::set(uint32_t value) {
-    _percentage = ((value / _reference) * 100) >> 5;
-}
-
-
-void MEASURE_VALUE::set_package(char* package) {
-    _percentage = package[1] | ((package[0] & 0x07) >> 8);
-    _index = package[0] >> 5;
-    _reference = (package[2] << 8) | package[3];
-}
-
-
-char* MEASURE_VALUE::get_package(void) {
-    uint8_t data[4];
-
-    data[0] = (_index << 5) | (_percentage >> 8);
-    data[1] = _percentage & 0xff;
-    data[2] = _reference >> 8;
-    data[3] = _reference & 0xff;
-
-    return data;
-}
-
-
-uint16_t MEASURE_VALUE::percent(void) {
-    return _percentage;
-}
-
-
-uint16_t MEASURE_VALUE::value(void) {
-    return _percentage * _reference;
-}
-
-
-uint8_t MEASURE_VALUE::index(void) {
-    return _index;
 }
