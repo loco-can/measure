@@ -10,7 +10,7 @@
 #ifndef MEASURE_CALUCULATE_H
 #define MEASURE_CALUCULATE_H
 
-#include "measure_value.h"
+#include "value.h"
 
 
 class MEASURE_CALCULATE {
@@ -19,17 +19,21 @@ class MEASURE_CALCULATE {
 
         void begin(void);                       // begin measuring 
         void reset(void);                       // reset value
+        VALUE get(void);                        // return measure value
+        uint16_t percentage(void);              // get percentage
+
 
         // calculate value and return result
-        MEASURE_VALUE add_min(MEASURE_VALUE val);   // calculate minimum
-        MEASURE_VALUE add_max(MEASURE_VALUE val);   // calculate maximum
-        MEASURE_VALUE add_avr(MEASURE_VALUE val);   // calculate average
+        VALUE add_min(VALUE val);   // calculate minimum
+        VALUE add_max(VALUE val);   // calculate maximum
+        VALUE add_avr(VALUE val);   // calculate average
 
     private:
-        void _clone(MEASURE_VALUE val);             // clone measure value without percentage
+        void _clone(VALUE val);             // clone measure value without percentage
 
-        MEASURE_VALUE _value;
+        VALUE _value;
         uint8_t _i;
+        uint8_t _avr_count;
 };
 
 

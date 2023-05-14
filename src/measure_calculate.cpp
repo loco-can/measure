@@ -17,12 +17,21 @@ void MEASURE_CALCULATE::begin(void) {
 
 // reset value
 void MEASURE_CALCULATE::reset(void) {
+    Serial.println("reset");
     _value.percentage(0);
+    _avr_count = 0;
 }
 
 
 // calculate minimum
-MEASURE_VALUE MEASURE_CALCULATE::add_min(MEASURE_VALUE val) {
+VALUE MEASURE_CALCULATE::add_min(VALUE val) {
+
+    _avr_count = 0;
+
+    // init percentage for minimum
+    if (_value.percentage() == 0) {
+        _value.percentage(val.percentage());
+    }
 
     _clone(val);
 
@@ -35,7 +44,9 @@ MEASURE_VALUE MEASURE_CALCULATE::add_min(MEASURE_VALUE val) {
 
 
 // calculate maximum
-MEASURE_VALUE MEASURE_CALCULATE::add_max(MEASURE_VALUE val) {
+VALUE MEASURE_CALCULATE::add_max(VALUE val) {
+
+    _avr_count = 0;
 
     _clone(val);
 
@@ -47,19 +58,41 @@ MEASURE_VALUE MEASURE_CALCULATE::add_max(MEASURE_VALUE val) {
 }
 
 
-// calculate average
-MEASURE_VALUE MEASURE_CALCULATE::add_avr(MEASURE_VALUE val) {
+// calculate average (max 32 values)
+VALUE MEASURE_CALCULATE::add_avr(VALUE val) {
 
     _clone(val);
 
-    _value.percentage((uint16_t)(((uint32_t)_value.percentage() + (uint32_t)val.percentage()) / 2));
+    if (_avr_count < 32) {
+        _value.percentage(_value.percentage() + val.percentage());
+        _avr_count++;
+    }
+
+    else {
+        reset();
+    }
 
     return _value;
 }
 
 
-void MEASURE_CALCULATE::_clone(MEASURE_VALUE val) {
+void MEASURE_CALCULATE::_clone(VALUE val) {
 
     _value.reference(val.reference());
     _value.index(val.index());
+}
+
+
+VALUE MEASURE_CALCULATE::get(void) {
+
+}
+
+
+uint16_t MEASURE_CALCULATE::percentage(void) {
+
+    if (_avr_count != 0) {
+        return _value.percentage() / _avr_count;
+    }
+
+    return _value.percentage();
 }
