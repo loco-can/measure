@@ -24,7 +24,7 @@ void MEASURE_CALCULATE::reset(void) {
 
 
 // calculate minimum
-VALUE MEASURE_CALCULATE::add_min(VALUE val) {
+INTELLIVALUE MEASURE_CALCULATE::add_min(INTELLIVALUE val) {
 
     _avr_count = 0;
 
@@ -44,7 +44,7 @@ VALUE MEASURE_CALCULATE::add_min(VALUE val) {
 
 
 // calculate maximum
-VALUE MEASURE_CALCULATE::add_max(VALUE val) {
+INTELLIVALUE MEASURE_CALCULATE::add_max(INTELLIVALUE val) {
 
     _avr_count = 0;
 
@@ -59,7 +59,7 @@ VALUE MEASURE_CALCULATE::add_max(VALUE val) {
 
 
 // calculate average (max 32 values)
-VALUE MEASURE_CALCULATE::add_avr(VALUE val) {
+INTELLIVALUE MEASURE_CALCULATE::add_avr(INTELLIVALUE val) {
 
     _clone(val);
 
@@ -76,14 +76,14 @@ VALUE MEASURE_CALCULATE::add_avr(VALUE val) {
 }
 
 
-void MEASURE_CALCULATE::_clone(VALUE val) {
+void MEASURE_CALCULATE::_clone(INTELLIVALUE val) {
 
     _value.reference(val.reference());
     _value.index(val.index());
 }
 
 
-VALUE MEASURE_CALCULATE::get(void) {
+INTELLIVALUE MEASURE_CALCULATE::get(void) {
 
 }
 

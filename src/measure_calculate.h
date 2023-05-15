@@ -10,7 +10,7 @@
 #ifndef MEASURE_CALUCULATE_H
 #define MEASURE_CALUCULATE_H
 
-#include "value.h"
+#include "intelliValue.h"
 
 
 class MEASURE_CALCULATE {
@@ -19,19 +19,19 @@ class MEASURE_CALCULATE {
 
         void begin(void);                       // begin measuring 
         void reset(void);                       // reset value
-        VALUE get(void);                        // return measure value
+        INTELLIVALUE get(void);                        // return measure value
         uint16_t percentage(void);              // get percentage
 
 
         // calculate value and return result
-        VALUE add_min(VALUE val);   // calculate minimum
-        VALUE add_max(VALUE val);   // calculate maximum
-        VALUE add_avr(VALUE val);   // calculate average
+        INTELLIVALUE add_min(INTELLIVALUE val);   // calculate minimum
+        INTELLIVALUE add_max(INTELLIVALUE val);   // calculate maximum
+        INTELLIVALUE add_avr(INTELLIVALUE val);   // calculate average
 
     private:
-        void _clone(VALUE val);             // clone measure value without percentage
+        void _clone(INTELLIVALUE val);             // clone measure value without percentage
 
-        VALUE _value;
+        INTELLIVALUE _value;
         uint8_t _i;
         uint8_t _avr_count;
 };
